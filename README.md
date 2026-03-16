@@ -59,7 +59,7 @@ npm install
 npm run dev
 ```
 
-### Using Docker
+### 2️⃣ Using Docker
 ```bash
 # Build and start all services
 docker-compose up --build
