@@ -35,7 +35,6 @@ This document outlines the architecture of **NatureMind AI Journal**, designed f
 - **HTTPS** for all frontend-backend and API requests  
 - **JWT Authentication** for user sessions  
 - **MongoDB Encryption at Rest** for sensitive journal data  
-- **Role-Based Access Control (RBAC)** for admin vs user permissions  
 
 ---
 
