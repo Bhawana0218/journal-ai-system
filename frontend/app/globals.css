@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-/* globals.css */
-
 :root {
   --font-roboto: 'Roboto', sans-serif;
 }
@@ -10,6 +8,67 @@ body {
   font-family: var(--font-roboto);
   margin: 0;
   padding: 0;
-  background-color: #f9fafb; /* light neutral background */
-  color: #111827; /* professional dark text color */
+  background-color: #f0fdf4;
+  color: #111827;
 }
+
+/* Mobile bottom nav spacing */
+@media (max-width: 640px) {
+  main {
+    padding-bottom: 5rem;
+  }
+}
+
+/* Page transition */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter {
+  animation: page-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.4s ease-out both; }
+
+/* Breathing orb — expands and contracts like a breath */
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 30px 4px rgba(167,139,250,0.35); }
+  40%       { transform: scale(1.18); box-shadow: 0 0 55px 12px rgba(167,139,250,0.5); }
+  60%       { transform: scale(1.18); box-shadow: 0 0 55px 12px rgba(167,139,250,0.5); }
+}
+.animate-breathe {
+  animation: breathe 5s ease-in-out infinite;
+}
+
+/* Slow pulse for non-breathing phases */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.85; transform: scale(1.06); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Slow spin for "thinking" state */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 2.5s linear infinite;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+
+/* Voice waveform bars */
+@keyframes wave {
+  from { transform: scaleY(0.4); }
+  to   { transform: scaleY(1.2); }
+}
+

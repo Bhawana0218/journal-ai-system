@@ -21,9 +21,18 @@ const journalSchema = new mongoose.Schema({
         type: String,
     },
 
+    sentimentScore: {
+        type: Number,
+        default: 0
+    },
+
     keywords: [String],
 
     summary: {
+        type: String
+    },
+
+    insight: {
         type: String
     }
 

@@ -1,52 +1,78 @@
 "use client";
 
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend
-} from "chart.js";
-
-import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function EmotionPieChart({ entries }) {
+const EMOTION_PALETTE = {
+  happy:    "#facc15",
+  excited:  "#fb923c",
+  calm:     "#60a5fa",
+  sad:      "#818cf8",
+  stressed: "#f87171",
+  anxious:  "#f472b6",
+  neutral:  "#94a3b8",
+  grateful: "#34d399",
+  hopeful:  "#2dd4bf",
+};
 
-  if (!entries || entries.length === 0) return null;
+export default function EmotionPieChart({ insights }) {
+  // Use emotionDistribution from insights API (real AI data)
+  const distribution = insights?.emotionDistribution;
 
-  const emotionCount = {};
+  if (!distribution?.length)
+    return (
+      <div className="flex flex-col items-center justify-center h-48 text-gray-400">
+        <span className="text-3xl mb-2">🥧</span>
+        <p className="text-sm">No emotion data yet</p>
+      </div>
+    );
 
-  entries.forEach(e => {
-    const emotion = e.emotion || "neutral";
-    emotionCount[emotion] = (emotionCount[emotion] || 0) + 1;
-  });
+  const labels = distribution.map(d => d.emotion);
+  const values = distribution.map(d => d.count);
+  const colors = labels.map(l => EMOTION_PALETTE[l.toLowerCase()] || "#a3e635");
 
   const data = {
-    labels: Object.keys(emotionCount),
-    datasets: [
-      {
-        label: "Emotion Distribution",
-        data: Object.values(emotionCount),
-        backgroundColor: [
-          "#60a5fa",
-          "#34d399",
-          "#fbbf24",
-          "#f87171",
-          "#a78bfa"
-        ]
+    labels,
+    datasets: [{
+      data: values,
+      backgroundColor: colors,
+      borderColor: "#fff",
+      borderWidth: 3,
+      hoverOffset: 8,
+    }]
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: "62%",
+    plugins: {
+      legend: {
+        position: "right",
+        labels: {
+          font: { size: 12 },
+          padding: 12,
+          usePointStyle: true,
+          pointStyleWidth: 10,
+        }
+      },
+      tooltip: {
+        backgroundColor: "#1f2937",
+        titleColor: "#f9fafb",
+        bodyColor: "#d1fae5",
+        callbacks: {
+          label: ctx => ` ${ctx.label}: ${ctx.parsed} entries (${distribution[ctx.dataIndex]?.percentage}%)`
+        }
       }
-    ]
+    }
   };
 
   return (
-
-    <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 mb-6">
-      <h2 className="text-2xl font-bold mb-4 text-green-700 text-center drop-shadow-sm">
-        🌈 Emotion Distribution
-      </h2>
-      <div className="w-full h-64 md:h-80 flex justify-center items-center">
-        <Pie data={data} />
+    <div>
+      <div className="h-56">
+        <Doughnut data={data} options={options} />
       </div>
     </div>
   );

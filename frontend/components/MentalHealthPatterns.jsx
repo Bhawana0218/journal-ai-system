@@ -1,69 +1,63 @@
 "use client";
 
 export default function MentalHealthPatterns({ patterns }) {
-
   if (!patterns) return null;
 
   return (
-   
-    <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 mb-6">
-      <h2 className="text-2xl font-extrabold mb-6 text-green-700 text-center drop-shadow-sm">
-        🧠 AI Mental Health Patterns
-      </h2>
-
-      {/* Recurring Patterns */}
-      <div className="mb-4 p-4 bg-green-50 rounded-xl shadow-inner hover:shadow-md transition-shadow duration-300">
-        <h3 className="font-semibold text-green-800 mb-2">🔄 Recurring Patterns</h3>
+    <div className="space-y-3">
+      <div className="p-4 bg-green-50 rounded-xl">
+        <h3 className="font-semibold text-green-800 mb-2 text-sm">🔄 Recurring Patterns</h3>
         {patterns.patterns?.length > 0 ? (
-          <ul className="list-disc ml-6 text-gray-800">
+          <ul className="space-y-1">
             {patterns.patterns.map((p, i) => (
-              <li key={i} className="hover:text-green-600 transition-colors duration-200 cursor-pointer">
-                {p}
+              <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="text-green-500 mt-0.5">•</span>{p}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">No recurring patterns detected.</p>
+          <p className="text-sm text-gray-400">No recurring patterns detected yet.</p>
         )}
       </div>
 
-      {/* Possible Triggers */}
-      <div className="mb-4 p-4 bg-red-50 rounded-xl shadow-inner hover:shadow-md transition-shadow duration-300">
-        <h3 className="font-semibold text-red-700 mb-2">⚠️ Possible Triggers</h3>
+      <div className="p-4 bg-red-50 rounded-xl">
+        <h3 className="font-semibold text-red-700 mb-2 text-sm">⚠️ Possible Triggers</h3>
         {patterns.triggers?.length > 0 ? (
-          <ul className="list-disc ml-6 text-gray-800">
+          <ul className="space-y-1">
             {patterns.triggers.map((t, i) => (
-              <li key={i} className="hover:text-red-600 transition-colors duration-200 cursor-pointer">
-                {t}
+              <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="text-red-400 mt-0.5">•</span>{t}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">No triggers detected.</p>
+          <p className="text-sm text-gray-400">No triggers detected yet.</p>
         )}
       </div>
 
-      {/* Positive Habits */}
-      <div className="mb-4 p-4 bg-blue-50 rounded-xl shadow-inner hover:shadow-md transition-shadow duration-300">
-        <h3 className="font-semibold text-blue-700 mb-2">💡 Positive Habits</h3>
+      <div className="p-4 bg-blue-50 rounded-xl">
+        <h3 className="font-semibold text-blue-700 mb-2 text-sm">💡 Positive Habits</h3>
         {patterns.positiveHabits?.length > 0 ? (
-          <ul className="list-disc ml-6 text-gray-800">
+          <ul className="space-y-1">
             {patterns.positiveHabits.map((h, i) => (
-              <li key={i} className="hover:text-blue-600 transition-colors duration-200 cursor-pointer">
-                {h}
+              <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="text-blue-400 mt-0.5">•</span>{h}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">No positive habits found.</p>
+          <p className="text-sm text-gray-400">No positive habits found yet.</p>
         )}
       </div>
 
-      {/* Recommendation */}
-      <div className="mt-4 p-4 bg-green-100 rounded-2xl shadow-inner hover:shadow-md transition-shadow duration-300">
-        <strong className="text-green-800">✅ Recommendation:</strong>{" "}
-        <span className="text-gray-800">{patterns.recommendation || "No recommendation available."}</span>
-      </div>
+      {patterns.recommendation && (
+        <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+          <p className="text-sm text-gray-700">
+            <span className="font-semibold text-emerald-700">✅ Recommendation — </span>
+            {patterns.recommendation}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

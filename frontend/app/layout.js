@@ -1,12 +1,12 @@
 
-import { Roboto } from "next/font/google"; // Use Roboto instead of Inter
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
 const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["400", "700"],   // normal & bold
+  weight: ["400", "700"],  
   display: "swap",
-  fallback: ["ui-sans-serif", "system-ui"], // safe fallback if font fails
+  fallback: ["ui-sans-serif", "system-ui"],
 });
 
 export const metadata = {

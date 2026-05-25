@@ -5,7 +5,7 @@ const groq = new Groq({
 });
 
 async function analyzeEmotion(text) {
-    try{
+    try {
 
         const prompt = `
         You are an AI mental health journal analyzer.
@@ -44,37 +44,31 @@ Journal Entry:
         });
 
         const output = response.choices[0].message.content;
-
-        // return JSON.parse(output);
-
-        // safer JSON extraction
         const jsonMatch = output.match(/\{[\s\S]*\}/);
 
-         if (!jsonMatch) {
+        if (!jsonMatch) {
             throw new Error("Invalid JSON from AI");
-          }
+        }
+        const parsed = JSON.parse(jsonMatch[0]);
 
-          const parsed = JSON.parse(jsonMatch[0]);
-
-    return {
-      emotion: parsed.emotion || "neutral",
-      sentimentScore: parsed.sentimentScore || 0,
-      keywords: parsed.keywords || [],
-      summary: parsed.summary || "",
-      insight: parsed.insight || ""
-    };
+        return {
+            emotion: parsed.emotion || "neutral",
+            sentimentScore: parsed.sentimentScore || 0,
+            keywords: parsed.keywords || [],
+            summary: parsed.summary || "",
+            insight: parsed.insight || ""
+        };
     }
-    catch(error){
-         console.error("AI Analysis Error:", error.message);
+    catch (error) {
+        console.error("AI Analysis Error:", error.message);
 
-        // fallback result (important for production)
-    return {
-      emotion: "neutral",
-      sentimentScore: 0,
-      keywords: [],
-      summary: "Analysis unavailable",
-      insight: ""
-    };
+        return {
+            emotion: "neutral",
+            sentimentScore: 0,
+            keywords: [],
+            summary: "Analysis unavailable",
+            insight: ""
+        };
     }
 }
 
