@@ -13,10 +13,11 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
  */
 async function runTherapistSession(userMessage, history, entries, insightsSummary) {
   try {
-    // Build a rich context from real data
-    const recentEntries = entries.slice(-10).map(e =>
-      `[${new Date(e.createdAt).toLocaleDateString()}] emotion=${e.emotion}, sentiment=${e.sentimentScore?.toFixed(2)}, keywords=${(e.keywords || []).join(", ")}, summary="${e.summary || e.text?.slice(0, 80)}"`
-    ).join("\n");
+
+    const recentEntries = entries.slice(-10).map(e => {
+      const dateStr = e.createdAt ? new Date(e.createdAt).toLocaleDateString() : "unknown date";
+      return `[${dateStr}] emotion=${e.emotion || "unknown"}, sentiment=${(e.sentimentScore || 0).toFixed(2)}, keywords=${(e.keywords || []).join(", ")}, summary="${e.summary || (e.text || "").slice(0, 80)}"`;
+    }).join("\n");
 
     const { topEmotion, avgSentiment, patterns, recentKeywords, moodStreak } = insightsSummary;
 
@@ -60,7 +61,6 @@ Session rules:
       ...history,
     ];
 
-    // Empty string or the special opener token = AI opens the session
     if (userMessage && userMessage !== "__OPEN__") {
       messages.push({ role: "user", content: userMessage });
     }
@@ -74,7 +74,6 @@ Session rules:
 
     const reply = response.choices[0].message.content.trim();
 
-    // Detect phase from reply content for UI hints
     const lower = reply.toLowerCase();
     let phase = "reflect";
     if (lower.includes("breath") || lower.includes("inhale") || lower.includes("exhale")) phase = "breathe";

@@ -30,7 +30,7 @@ export default function JournalForm({ onNewEntry }) {
     if (!text.trim()) return;
     setSubmitting(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/journal", {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/journal`, {
         userId: "123",
         ambience,
         text,

@@ -35,9 +35,6 @@ function Orb({ phase, thinking }) {
           transition-all duration-700`}
       >
         <div className="absolute inset-1.5 rounded-full bg-white/20 backdrop-blur-sm" />
-        <div className="absolute inset-0 flex items-center justify-center text-xl">
-          {thinking ? "✨" : cfg.icon}
-        </div>
       </div>
       <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${cfg.badge}`}>
         {thinking ? "Thinking…" : cfg.label}
@@ -102,7 +99,7 @@ export default function JournalChat() {
     setInitialized(true);
     setLoading(true);
 
-    axios.post("http://localhost:5000/api/journal/chat/123", {
+    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/journal/chat/123`, {
       question: "__OPEN__",   // special token — therapist service handles empty opener
       history: []
     })
@@ -134,7 +131,7 @@ export default function JournalChat() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/journal/chat/123",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/journal/chat/123`,
         { question: msg, history: newHistory }
       );
       const { answer, phase: p } = res.data;

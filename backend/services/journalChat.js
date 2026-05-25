@@ -12,10 +12,10 @@ async function chatWithJournal(question, entries) {
   try {
     const journalContext = entries
       .slice(-20)
-      .map(
-        (e, i) =>
-          `Entry ${i + 1} [${new Date(e.createdAt).toLocaleDateString()}]: emotion=${e.emotion}, sentiment=${e.sentimentScore}, keywords=${(e.keywords || []).join(", ")}, summary="${e.summary || e.text.slice(0, 100)}"`
-      )
+      .map((e, i) => {
+        const dateStr = e.createdAt ? new Date(e.createdAt).toLocaleDateString() : "unknown date";
+        return `Entry ${i + 1} [${dateStr}]: emotion=${e.emotion || "unknown"}, sentiment=${e.sentimentScore || 0}, keywords=${(e.keywords || []).join(", ")}, summary="${e.summary || (e.text || "").slice(0, 100)}"`;
+      })
       .join("\n");
 
     const prompt = `

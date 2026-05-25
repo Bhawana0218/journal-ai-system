@@ -39,11 +39,13 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [greeting, setGreeting] = useState("");
 
+  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
   const fetchAll = useCallback(async () => {
     try {
       const [entriesRes, insightsRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/journal/123"),
-        axios.get("http://localhost:5000/api/journal/insights/123"),
+        axios.get(`${API}/api/journal/123`),
+        axios.get(`${API}/api/journal/insights/123`),
       ]);
       setEntries(entriesRes.data);
       setInsights(insightsRes.data);
@@ -52,7 +54,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [API]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
@@ -63,8 +65,8 @@ export default function Home() {
 
   const handleNewEntry = (entry) => {
     setEntries(prev => [entry, ...prev]);
-    // Refresh insights after new entry (AI re-analysis)
-    axios.get("http://localhost:5000/api/journal/insights/123")
+    // Bust insights cache so the new entry is reflected immediately
+    axios.get(`${API}/api/journal/insights/123?bust=1`)
       .then(r => setInsights(r.data))
       .catch(() => {});
   };

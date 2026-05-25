@@ -113,7 +113,7 @@ export default function VoiceRecorder({ onTranscript }) {
       formData.append("duration", String(seconds)); // send timer value to backend
 
       const res = await axios.post(
-        "http://localhost:5000/api/journal/voice/transcribe",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/journal/voice/transcribe`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
