@@ -1,13 +1,6 @@
 const fs = require("fs");
 const { transcribeAudio, analyzeVoice } = require("../services/voiceService");
 
-/**
- * POST /api/journal/voice/transcribe
- * Body (multipart/form-data):
- *   - audio      : audio file (webm / ogg / wav / mp3)
- *   - duration   : recording duration in seconds (optional, from frontend timer)
- * Returns: { transcript, voiceAnalysis }
- */
 exports.transcribeVoice = async (req, res) => {
   const filePath = req.file?.path;
 
@@ -16,7 +9,6 @@ exports.transcribeVoice = async (req, res) => {
       return res.status(400).json({ message: "No audio file received." });
     }
 
-    // Optional duration hint from the frontend timer (more accurate than file metadata)
     const recordingSeconds = parseFloat(req.body?.duration) || 0;
 
     // Step 1 — Transcribe with Groq Whisper

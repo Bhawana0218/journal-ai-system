@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import VoiceRecorder from "./VoiceRecorder";
 
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 export default function JournalForm({ onNewEntry }) {
   const [mode, setMode] = useState("write");   // "write" | "speak"
   const [text, setText] = useState("");
@@ -30,7 +32,7 @@ export default function JournalForm({ onNewEntry }) {
     if (!text.trim()) return;
     setSubmitting(true);
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/journal`, {
+      const res = await axios.post(`${API}/api/journal`, {
         userId: "123",
         ambience,
         text,

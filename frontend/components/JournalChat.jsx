@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 // ── Phase config — driven by AI-detected phase in each response ───────────────
 const PHASE = {
   reflect: { label: "Reflection",          icon: "🌱", orb: "from-violet-400 via-purple-500 to-indigo-500", glow: "shadow-purple-200", badge: "bg-purple-100 text-purple-700" },
@@ -99,7 +101,7 @@ export default function JournalChat() {
     setInitialized(true);
     setLoading(true);
 
-    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/journal/chat/123`, {
+    axios.post(`${API}/api/journal/chat/123`, {
       question: "__OPEN__",   // special token — therapist service handles empty opener
       history: []
     })
@@ -131,7 +133,7 @@ export default function JournalChat() {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/journal/chat/123`,
+        `${API}/api/journal/chat/123`,
         { question: msg, history: newHistory }
       );
       const { answer, phase: p } = res.data;

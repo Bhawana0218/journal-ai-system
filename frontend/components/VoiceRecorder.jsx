@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 // ── Stress score → colour ─────────────────────────────────────────────────────
 function stressColor(score) {
   if (score <= 3) return { bar: "bg-green-400",  text: "text-green-700",  bg: "bg-green-50",  border: "border-green-200"  };
@@ -113,7 +115,7 @@ export default function VoiceRecorder({ onTranscript }) {
       formData.append("duration", String(seconds)); // send timer value to backend
 
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/journal/voice/transcribe`,
+        `${API}/api/journal/voice/transcribe`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
